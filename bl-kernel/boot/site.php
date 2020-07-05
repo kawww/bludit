@@ -3,6 +3,9 @@
 // Load plugins rules
 include(PATH_RULES.'60.plugins.php');
 
+//$className = $_REQ["theme"];
+
+//activateTheme($className);
 // Plugins before all
 Theme::plugins('beforeAll');
 
@@ -24,6 +27,7 @@ if (Sanitize::pathFile(PATH_THEMES, $site->theme().DS.'init.php')) {
 // Theme HTML
 if (Sanitize::pathFile(PATH_THEMES, $site->theme().DS.'index.php')) {
 	include(PATH_THEMES.$site->theme().DS.'index.php');
+
 } else {
 	$L->p('Please check your theme configuration in the admin panel. Check for an active theme.');
 }

@@ -121,7 +121,7 @@ if (file_exists(PATH_KERNEL.'bludit.pro.php')) {
 $pages 		= new Pages();
 $users 		= new Users();
 $tags 		= new Tags();
-$categories = new Categories();
+$categories 	= new Categories();
 $site  		= new Site();
 $url		= new Url();
 $security	= new Security();
@@ -153,9 +153,13 @@ if (strpos($_SERVER['REQUEST_URI'], $base)!==0) {
 	$base = '/';
 }
 
+$checktheme=$_REQUEST["theme"];
+
+if(!$checktheme){$checktheme="alternative";}
+
 define('HTML_PATH_ROOT', 		$base);
 define('HTML_PATH_THEMES',		HTML_PATH_ROOT.'bl-themes/');
-define('HTML_PATH_THEME',		HTML_PATH_THEMES.$site->theme().'/');
+define('HTML_PATH_THEME',		HTML_PATH_THEMES.$checktheme.'/');
 define('HTML_PATH_THEME_CSS',		HTML_PATH_THEME.'css/');
 define('HTML_PATH_THEME_JS',		HTML_PATH_THEME.'js/');
 define('HTML_PATH_THEME_IMG',		HTML_PATH_THEME.'img/');
@@ -206,9 +210,13 @@ define('IMAGE_RELATIVE_TO_ABSOLUTE', $site->imageRelativeToAbsolute());
 // TRUE if the markdown parser is enabled
 define('MARKDOWN_PARSER', $site->markdownParser());
 
+$checktheme=$_REQUEST["theme"];
+
+if(!$checktheme){$checktheme="alternative";}
+
 // --- PHP paths with dependency ---
 // This paths are absolutes for the OS
-define('THEME_DIR',			PATH_ROOT.'bl-themes'.DS.$site->theme().DS);
+define('THEME_DIR',			PATH_ROOT.'bl-themes'.DS.$checktheme.DS);
 define('THEME_DIR_PHP',			THEME_DIR.'php'.DS);
 define('THEME_DIR_CSS',			THEME_DIR.'css'.DS);
 define('THEME_DIR_JS',			THEME_DIR.'js'.DS);
