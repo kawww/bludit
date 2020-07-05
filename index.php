@@ -22,6 +22,7 @@ $loadTime = microtime(true);
 // Security constant
 define('BLUDIT', true);
 
+
 // Directory separator
 define('DS', DIRECTORY_SEPARATOR);
 
@@ -32,11 +33,13 @@ define('PATH_BOOT', PATH_ROOT.'bl-kernel'.DS.'boot'.DS);
 // Init
 require(PATH_BOOT.'init.php');
 
+
 // Admin area
 if ($url->whereAmI()==='admin') {
 	require(PATH_BOOT.'admin.php');
 }
 // Site
 else {
+
 	require(PATH_BOOT.'site.php');
 }
