@@ -1,8 +1,13 @@
+<?php
+error_reporting(0);
+include("../rpc.php");
+include("keva.php");
+?>
 <!-- Welcome message -->
 <header class="welcome bg-light">
 	<div class="container text-center">
 		<!-- Site title -->
-		<h1><?php echo $site->slogan(); ?></h1>
+		<h1><?php echo $title; ?></h1>
 
 		<!-- Site description -->
 		<?php if ($site->description()): ?>
@@ -40,7 +45,99 @@
 <?php endif ?>
 
 <!-- Print all the content -->
-<?php foreach ($content as $page): ?>
+<?php 
+
+foreach ($listasset as $k=>$v) 
+
+			{
+			
+			extract($v);
+
+
+
+		$key2=strip_tags($key,"");
+
+		if(stristr($key2,"_g") == true){continue;}
+
+		//check re
+
+		if(strlen($key2) == "64"){
+		
+		
+		
+									$txcount=1;
+									$txloop=$key2;
+
+									
+								
+
+									while($txcount<50) {
+									
+									$txcount++;
+
+									
+
+									$transaction= $kpc->getrawtransaction($txloop,1);
+								
+
+									
+									
+
+									foreach($transaction['vout'] as $vout)
+	   
+									  {
+
+										$op_return = $vout["scriptPubKey"]["asm"]; 
+
+				
+										$arr = explode(' ', $op_return); 
+
+										
+
+										if($arr[0] == 'OP_KEVA_PUT') 
+										{
+											 $cona=$arr[1];
+											 $cons=$arr[2];
+											 $conk=$arr[3];
+
+						
+
+											$txloop=hex2bin($cons);
+
+										
+						
+		
+											if(strlen($txloop)<>64){$key="RE:".$txloop;break;}
+													
+								
+													}
+												
+												}
+											}
+
+										
+		
+		
+		}
+
+			$x_value="<h4>[ ".$key2." ]</h4>";
+
+		
+			$key=trim($key);
+			$keylink=bin2hex($key);
+
+		
+
+
+//showall
+
+			if(stristr($value,"decodeURIComponent") == true){$value=$txx;}
+
+			$valuex=str_replace("\n","<br>",$value);
+
+
+?>
+
 <section class="home-page">
 	<div class="container">
 		<div class="row">
@@ -49,18 +146,18 @@
 				<?php Theme::plugins('pageBegin'); ?>
 
 				<!-- Page title -->
-				<a class="text-dark" href="<?php echo $page->permalink(); ?>">
-					<h2 class="title"><?php echo $page->title(); ?></h2>
+				<a class="text-dark" href="">
+					<h2 class="title"><?php echo $key; ?></h2>
 				</a>
 
 				<!-- Page description -->
-				<?php if ($page->description()): ?>
-				<p class="page-description"><?php echo $page->description(); ?></p>
-				<?php endif ?>
+				
+				<p class="page-description"><?php echo turnUrlIntoHyperlink($valuex); ?></p>
+			
 
 				<!-- Page content until the pagebreak -->
 				<div>
-				<?php echo $page->contentBreak(); ?>
+				
 				</div>
 
 				<!-- Shows "read more" button if necessary -->
@@ -76,7 +173,8 @@
 		</div>
 	</div>
 </section>
-<?php endforeach ?>
+
+<?php 	} ?>
 
 <!-- Pagination -->
 <?php if (Paginator::numberOfPages()>1): ?>
