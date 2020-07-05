@@ -1,10 +1,109 @@
+<?php
+error_reporting(0);
+include("../rpc.php");
+include("keva.php");
+?>
 <?php if (empty($content)): ?>
 	<div class="mt-4">
 	<?php $language->p('No pages found') ?>
 	</div>
 <?php endif ?>
 
-<?php foreach ($content as $page): ?>
+<?php
+
+foreach ($listasset as $k=>$v) 
+
+			{
+			
+			extract($v);
+
+
+
+		$key2=strip_tags($key,"");
+
+		if(stristr($key2,"_g") == true){continue;}
+
+		//check re
+
+		if(strlen($key2) == "64"){
+		
+		
+		
+									$txcount=1;
+									$txloop=$key2;
+
+									
+								
+
+									while($txcount<50) {
+									
+									$txcount++;
+
+									
+
+									$transaction= $kpc->getrawtransaction($txloop,1);
+								
+
+									
+									
+
+									foreach($transaction['vout'] as $vout)
+	   
+									  {
+
+										$op_return = $vout["scriptPubKey"]["asm"]; 
+
+				
+										$arr = explode(' ', $op_return); 
+
+										
+
+										if($arr[0] == 'OP_KEVA_PUT') 
+										{
+											 $cona=$arr[1];
+											 $cons=$arr[2];
+											 $conk=$arr[3];
+
+						
+
+											$txloop=hex2bin($cons);
+
+										
+						
+		
+											if(strlen($txloop)<>64){$key="RE:".$txloop;break;}
+													
+								
+													}
+												
+												}
+											}
+
+										
+		
+		
+		}
+
+			$x_value="<h4>[ ".$key2." ]</h4>";
+
+		
+			$key=trim($key);
+			$keylink=bin2hex($key);
+
+		
+
+
+//showall
+
+			if(stristr($value,"decodeURIComponent") == true){$value=$txx;}
+
+			$valuex=str_replace("\n","<br>",$value);
+
+	if(!$gname){if(isset($_REQ["gname"])){$gnamer=hex2bin($_REQ["gname"]);}else{$gnamer="";}}else{$gnamer=$gname;}
+
+	if($gnamespace==$asset){$gnamer=$title;}
+?>
+
 <!-- Post -->
 <div class="card my-5 border-0">
 
@@ -19,14 +118,14 @@
 	<div class="card-body p-0">
 		<!-- Title -->
 		<a class="text-dark" href="<?php echo $page->permalink(); ?>">
-			<h2 class="title"><?php echo $page->title(); ?></h2>
+			<h2 class="title"><?php echo $key; ?></h2>
 		</a>
 
 		<!-- Creation date -->
-		<h6 class="card-subtitle mb-3 text-muted"><?php echo $page->date(); ?> - <?php echo $L->get('Reading time') . ': ' . $page->readingTime(); ?></h6>
+		<h6 class="card-subtitle mb-3 text-muted"><?php echo date('Y-m-d H:i',$gtime); ?> - <?php echo "<a href=?theme=".$_REQUEST["theme"]."&asset=".$gnamespace."&gname=".bin2hex($gnamer).">".$gnamer."</a>"; ?></h6>
 
 		<!-- Breaked content -->
-		<?php echo $page->contentBreak(); ?>
+		<?php echo turnUrlIntoHyperlink($valuex); ?>
 
 		<!-- "Read more" button -->
 		<?php if ($page->readMore()): ?>
@@ -40,7 +139,7 @@
 
 </div>
 <hr>
-<?php endforeach ?>
+<?php } ?>
 
 <!-- Pagination -->
 <?php if (Paginator::numberOfPages()>1): ?>
